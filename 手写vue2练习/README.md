@@ -80,10 +80,6 @@ newStartNode newEndNode oldStartNode oldEndNode 四种比较
 
 最后，循环结束，去除多余节点，添加新增节点
 
-## 单个初始化函数解析
-```
-
-```
 ## 异步更新原理
 在数据setter更新之后，会调用闭包中dep的notify，继而调用watcher对象的update方法  
 ```javascript
@@ -115,9 +111,16 @@ flushSchedulerQueue会遍历队列中的watcher，执行run函数，更新视图
 【如果在父组件watcher运行期间将某子组件销毁，则子组件的watcher将被跳过】
 【同时要调用update钩子】
 
+三种watcher执行顺序 computed watcher => user watcher => render watcher
+
 当调用this.$nextTick同样的道理，会将要执行的回调方法放到microtask事件队列中，等待执行。
 
 实际用法
 在更新数据之后
 调用this.$nextTick 可以获取更新后的内容
+```
+
+## 单个初始化函数解析
+```
+
 ```
