@@ -84,3 +84,40 @@ newStartNode newEndNode oldStartNode oldEndNode 四种比较
 ```
 
 ```
+## 异步更新原理
+在数据setter更新之后，会调用闭包中dep的notify，继而调用watcher对象的update方法  
+```javascript
+queueWatcher
+// 在其中首先判断是否为queue已经包含着的watcher对象
+// 未包含，则添加到队列
+// 在下一次tick时，将队列中的watcher统一执行
+```
+### Tick nextTick
+```
+三种办法获取timeFunc
+promise  
+moutationObserver 
+setTimeout  
+```
+
+调用this.$nextTick会返回一个queueNextTick函数，并且立即执行，将传入的回调函数添加到callback队列中，然后执行一次timeFunc  
+  
+在执行的过程中，又会有多个callback被添加到callback中，这时候会更具pending状态来判断是否继续执行timeFunc，保证每一次tick只执行一次timeFunc
+
+nextTick的回调函数flushSchedulerQueue  
+```
+当执行了数据更新之后，调用了watcher的update方法，会将wathcer添加到queueWatcher队列中，然后执行nextTick，传入flushSchedulerQueue
+
+flushSchedulerQueue会遍历队列中的watcher，执行run函数，更新视图
+【更新之前时候办的事情】
+【会将queue中的watcher排序，父组件排在子组件的前面，因为父组件要比子组件更早执行】
+【user watcher 比 render watcher先运行】（immediate、sync、deep三属性以及执行原理）...【immediate在初始创建过程中直接调用，sync在update调用中判断是否加入队列，deep在是生成watcher对象时判断是否进行深绑定（是否对每一层属性都进行依赖收集）（同数据绑定）】
+【如果在父组件watcher运行期间将某子组件销毁，则子组件的watcher将被跳过】
+【同时要调用update钩子】
+
+当调用this.$nextTick同样的道理，会将要执行的回调方法放到microtask事件队列中，等待执行。
+
+实际用法
+在更新数据之后
+调用this.$nextTick 可以获取更新后的内容
+```

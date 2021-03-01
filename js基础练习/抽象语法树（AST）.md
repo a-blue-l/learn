@@ -1,5 +1,10 @@
 ### 抽象语法树 AST [文档传送门](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Parser_API#node_objects)  
-#### [参考文章](https://segmentfault.com/a/1190000016231512)，以下代码均出自改文章
+#### [参考文章](https://segmentfault.com/a/1190000016231512)，以下代码均出自该文章
+
+#### 为什么需要
+AST可将javascript代码拆解为一个个最小单元的对象，同理，我们也可以通过语法树生成任何javascript代码，让命令行修改js代码变为可能  
+参考vue的template编译原理
+
 #### 1、拆解代码 工具（recast）
 *如何拆解*
 ```
