@@ -120,7 +120,55 @@ flushSchedulerQueue会遍历队列中的watcher，执行run函数，更新视图
 调用this.$nextTick 可以获取更新后的内容
 ```
 
-## 单个初始化函数解析
+## 关于vue的Watcher分类
+```javascript
+// 三种场景
+// 1、set数据 - 使用数据的UI视图更改 【render-watcher，负责执行视图的更新】
+// 2、set数据 - 使用数据的计算属性更改 - 使用计算属性的UI视图更改 【computed-watcher，负责执行计算属性的更新】
+// 3、set数据 - 开发者主动注册的watch回调函数执行 【user-watcher，负责执行watch回调的更新】
+```
+```javascript
+// 关于computed
+// 见initComputed函数解析
 ```
 
+## 单个初始化函数解析
+```javascript
+initData
+// 在此进行数据绑定
+```
+```javascript
+initComputed
+// 初始化流程
+// 遍历开发者设置的computed属性，为每个属性设置生成一个Watcher对象
+//【注意：在初始化watcher对象的时候，会执行watcher的get方法，通过pushTarget添加自身watcher对象，在添加自身的时候，会将Dep.target设置为当前watcher对象，在执行watcher.get方法的时候，会调用某些data中的属性，触发data属性的getter方法，并将Dep.target添加到其自身的deps中，也就是computed-watcher】
+// 至此，computed-watcher已经被加入到了所有相关依赖属性的deps中（在这里，某个属性可能会有多个computed-watcher）
+// 下一步
+// 拦截该属性的get方法，并将其绑定到vm实例上，可以通过vm[属性名]来访问属性
+// 调取computed返回的值（可能是函数直接返回，也可能是自定义get方法返回），得到新的结果并保存在value中
+// 为该属性设置getter方法，雷同data属性的数据劫持，在getter中进行依赖收集等操作
+// 【注意，这里的依赖收集是将computed-watcher添加到computed-watcher对象自身的deps当中】
+// 至此，computed-watcher对象设置完成，每一个computed属性的setter回调都是一个noop空函数
+// 但是computed-watcher对象会添加到们每一个他所依赖的属性的deps当中，在该属性发生改变的时候，会出发computed-watcher的修改，同时触发render-watcher的修改进行UI视图的更新
+
+// 默认 computed的lazy为true
+// 所以在初始化的时候并不会直接调用get函数获取值
+// 当获取某个计算属性的值的时候，会触发createComputedGetter函数
+// 当有数据发生改变或者第一次获取的时候，会触发watcher的get函数，执行computed的回调，所有用到的data属性，将会触发属性的getter方法，此时会调用该属性内部的dep.depend
+// 至此，会调用Dep.target.addDep将该属性的dep添加到计算属性的watcher对象中，并将计算属性的watcher对象添加到该属性内部dep的subs队列队列中
+// 最后watcher.depend，这时候在watcher的deps中包含的他所依赖的属性的deps，遍历之后进行depend
+// 至此会将computed-watch上的deps绑定到render-watcher上【待研究】
+```
+```javascript
+initWatch
+// 遍历watch对象中的属性，此方法在initMethods之后，所以在watch中可以使用methods中的方法
+// 将每一个属性创建一个watcher对象
+// 初始化过程会对immediate参数进行判断
+// 在$watch的同时，会将key值赋予watcher的getter，在调用该值的时候，会触发该值的get方法，进行依赖收集
+// 至此，在watch初始化之后，每个监听的值都会添加一个user-watcher对象，当触发的时候，会调用其回调函数
+// 【重点：在data中有值，watch中不需要再次双向绑定，但是要重新依赖收集（也就是watcher对象的getter操作，如果是字符串，则会处理成函数，进行调用）】
+```
+```javascript
+initMethods
+// 将各个方法名绑定在vm实例上
 ```
