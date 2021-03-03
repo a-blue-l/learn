@@ -172,3 +172,60 @@ initWatch
 initMethods
 // 将各个方法名绑定在vm实例上
 ```
+```javascript
+initProps
+
+```
+```javascript
+initEvents
+
+```
+```javascript
+initInjections
+
+```
+```javascript
+initRender
+
+```
+
+
+## 事件机制
+```javascript
+// 四个事件API
+// 所有的事件都存储在_events中
+$on
+$emit
+$off
+$once
+```
+
+## props原理
+```javascript
+// 第一步，父组件
+// 被解析成一个模板渲染函数，其中便调用了createComponent【注意with的用法】
+// 当内部调用实例化子组件的时候，因为with的原因，一些绑定好的属性（attrs）会去父组件的vm上寻找
+// 第二步
+// 初始化子组件，会将自身的props序列化成为一个Object，里面包含了所有的prop属性【比如props是数组或对象】
+// 当render函数执行的时候，会调用createComponent创建虚拟组件dom，并返回vNode节点，在执行过程中会调用extractPropsFromVNodeData
+// 看实现了解：extractPropsFromVNodeData的过程中会将子组件自定义的props中的属性取出来，得到对应的值，这些值有可能是父组件的prop，也有可能是父组件的data
+// 至此，拿到了子组件需要的props中属性对应的值
+// 调用extend的时候，会初始化Props，这时候会对每一个prop属性进行代理，代理到vm身上
+// 当父组件的data值改变，保存在subs中的watcher函数会重新渲染，【这里有缓存，加快渲染】，同时会重新渲染子组件
+// 【注意，直接修改父组件的props，当为基础数据类型的时候不会生效，引用类型的时候会触发父组件的修改】
+```
+
+## 组件间的通信
+```
+父-子
+props
+$children
+[ElementUI 里面重写broadcast]
+
+子-父
+$on $emit
+直接修改props中的引用类型数据
+$parent
+
+[ElementUI 重写dispatch]
+```
