@@ -229,3 +229,5 @@ $parent
 
 [ElementUI 重写dispatch]
 ```
+
+## keep-live
