@@ -1,50 +1,58 @@
 <!DOCTYPE html>
 <html lang="zh">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<title></title>
-		<style>
-			.message{
-				width: 100%;
-				color: #fff;
-				background: green;
-			}
-			.fade-enter, .fade-leave-to{
-				opacity: 0
-			}
-			.fade-enter-active, .fade-leave-active{
-				transition: opacity .5s;
-			}
-			.jump-enter-active, .jump-leave-active{
-				transition: opacity .5s;
-			}
-		</style>
-	</head>
-	<body>
-		<!-- 宿主文件 -->
-		<div id="app"></div>
-		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script>
-		<script>
-			Vue.prototype.$subs = new Vue();
 
-			Vue.component('data-list', {
-				props: {
-					course: {
-						type: Array,
-						default: []
-					}
-				},
-				data() {
-					return {
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title></title>
+	<style>
+		.message {
+			width: 100%;
+			color: #fff;
+			background: green;
+		}
 
-					}
-				},
-				methods: {
+		.fade-enter,
+		.fade-leave-to {
+			opacity: 0
+		}
 
-				},
-				template: `
+		.fade-enter-active,
+		.fade-leave-active {
+			transition: opacity .5s;
+		}
+
+		.jump-enter-active,
+		.jump-leave-active {
+			transition: opacity .5s;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- 宿主文件 -->
+	<div id="app"></div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		Vue.prototype.$subs = new Vue();
+
+		Vue.component('data-list', {
+			props: {
+				course: {
+					type: Array,
+					default: []
+				}
+			},
+			data() {
+				return {
+
+				}
+			},
+			methods: {
+
+			},
+			template: `
 					<ul>
 						<transition-group name="fade">
 							<li v-for="list in course" :key="list">
@@ -53,41 +61,41 @@
 						</transition-group>
 					</ul>
 				`
-			})
+		})
 
-			Vue.component('message-success', {
-				data() {
-					return {
-						show: false
-					}
+		Vue.component('message-success', {
+			data() {
+				return {
+					show: false
+				}
+			},
+			mounted() {
+				this.$subs.$on('message-handler', () => {
+					this.toggleShow();
+				})
+			},
+			methods: {
+				toggleShow() {
+					this.show = !this.show;
 				},
-				mounted() {
-					this.$subs.$on('message-handler', () => {
-						this.toggleShow();
-					})
+				beforeEnter(el) {
+					el.style.opacity = 0;
 				},
-				methods: {
-					toggleShow() {
-						this.show = !this.show;
-					},
-					beforeEnter(el) {
-						el.style.opacity = 0;
-					},
-					enter(el, done) {
-						document.body.offsetHeight; // 触发回流
-						el.style.opacity = 1;
-						el.addEventListener('transitionend', done);
-					},
-					beforeLeave(el) {
-						el.style.opacity = 1;
-					},
-					leave(el, done) {
-						document.body.offsetHeight; // 触发回流
-						el.style.opacity = 0;
-						el.addEventListener('transitionend', done);
-					}
+				enter(el, done) {
+					document.body.offsetHeight; // 触发回流
+					el.style.opacity = 1;
+					el.addEventListener('transitionend', done);
 				},
-				template: `
+				beforeLeave(el) {
+					el.style.opacity = 1;
+				},
+				leave(el, done) {
+					document.body.offsetHeight; // 触发回流
+					el.style.opacity = 0;
+					el.addEventListener('transitionend', done);
+				}
+			},
+			template: `
 				<transition name="jump"
 				@before-enter="beforeEnter"
 				@enter="enter"
@@ -100,28 +108,46 @@
 					</div>
 				</transition>
 			`,
-			})
+		})
 
-			let vm = new Vue({
-				el: '#app',
-				data() {
-					return {
-						text: '',
-						title: '这是标题',
-						course: [
+		// 测试render函数以及functional函数组件
+		Vue.component('test-render', {
+			functional: true,
+			props: {
+				title: {
+					type: String,
+					default: '默认标题'
+				}
+			},
+			render(h, context) {
+				console.log(h, context)
+				const { title } = context.props;
+				return h('div', [
+					h('span', title)
+				])
+			}
+		})
 
-						]
-					}
+		let vm = new Vue({
+			el: '#app',
+			data() {
+				return {
+					text: '',
+					title: '这是标题',
+					course: [
+
+					]
+				}
+			},
+			methods: {
+				testMessage() {
+					this.$subs.$emit('message-handler')
 				},
-				methods: {
-					testMessage() {
-						this.$subs.$emit('message-handler')
-					},
-					addCourse() {
-						this.course.push(this.text)
-					}
-				},
-				template: `
+				addCourse() {
+					this.course.push(this.text)
+				}
+			},
+			template: `
 				<div>
 					{{title}}
 					<message-success ref="messageSuccess">
@@ -129,10 +155,12 @@
 					</message-success>
 					<input v-model="text" @keydown.enter="addCourse"></input>
 					<data-list v-bind:course="course"></data-list>
+					<test-render :title="'测试render函数'"></test-render>
 					<button @click="testMessage">弹窗</button>
 				</div>
 			`
-			})
-		</script>
-	</body>
+		})
+	</script>
+</body>
+
 </html>

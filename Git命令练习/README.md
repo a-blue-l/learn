@@ -27,10 +27,10 @@ git stash（暂存之后）- git stash lish（查看暂存列表） - git stash 
           
         master用来记录当前线上环境发布的代码历史  
         dev用来记录所有项目代码研发的提交历史  
-  
+      
         feature用来开发新功能，开发完毕要合并到dev分支并删除分支  
         hotfix 用来修复线上出现的bug，修复完成之后分别合并到master和dev分支中  
-  
+      
         release 分支上进行bug修复及上线的准备工作，不做任何功能上的修改，完成之后同时合并到master和dev分支上  
 
 （4）forking工作流
