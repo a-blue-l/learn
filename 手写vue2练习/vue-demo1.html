@@ -34,7 +34,9 @@
 	<!-- 宿主文件 -->
 	<div id="app"></div>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="./plugin.js"></script>
 	<script>
+		Vue.use(Myplugin)
 		Vue.prototype.$subs = new Vue();
 
 		Vue.component('data-list', {
@@ -128,6 +130,8 @@
 			}
 		})
 
+		// 测试插件
+
 		let vm = new Vue({
 			el: '#app',
 			data() {
@@ -147,15 +151,24 @@
 					this.course.push(this.text)
 				}
 			},
+			directives: {
+				focus: {
+					inserted(el) {
+						// el 是挂在后的dom
+						el.focus();
+					}
+				}
+			},
 			template: `
 				<div>
 					{{title}}
 					<message-success ref="messageSuccess">
 						<template v-slot:title="target">{{target.s}}这是slot标题</template>
 					</message-success>
-					<input v-model="text" @keydown.enter="addCourse"></input>
+					<input v-model="text" v-focus @keydown.enter="addCourse"></input>
 					<data-list v-bind:course="course"></data-list>
 					<test-render :title="'测试render函数'"></test-render>
+					<plugin-test></plugin-test>
 					<button @click="testMessage">弹窗</button>
 				</div>
 			`

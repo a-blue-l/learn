@@ -70,3 +70,29 @@ console.log('toString2：' + ([1,2,[3,4]]).toString())
 // Object
 console.log('------------------Object-----------------')
 console.log({a: 1, b: 2})
+
+console.log('------------------typeof-----------------')
+console.log(typeof 1)
+console.log(typeof '1')
+console.log(typeof null)
+console.log(typeof true)
+console.log(typeof undefined)
+
+console.log('------------------instaceof-----------------')
+let objs = {
+  a: 1
+}
+let aa = {}
+let bb = '1232'
+let cc = 11
+console.log(objs.constructor)
+console.log(objs.hasOwnProperty('a'))
+console.log(objs.propertyIsEnumerable('a'))
+console.log(aa instanceof Object)
+console.log('111 ' + (bb instanceof String))
+console.log('2 ' + (cc instanceof Number))
+
+console.log(Object.prototype.toString.call(null))
+console.log(Object.prototype.toString.call([1,2]))
+console.log(Object.prototype.toString.call({a:1}))
+console.log(Object.prototype.toString.call(2))
