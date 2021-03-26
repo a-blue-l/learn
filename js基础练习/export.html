@@ -16,28 +16,29 @@
   <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script> -->
   <!-- <script src="es6.js"></script> -->
   <!-- <script src="./regexp.js"></script> -->
+  <script src="./面向对象编程.js"></script>
     <script>
-      function functional(num) {
-        if(num <= 1){
-          return 1
-        } else {
-         return num += arguments.callee(num - 1) 
-        }
-      }
+      // function functional(num) {
+      //   if(num <= 1){
+      //     return 1
+      //   } else {
+      //    return num += arguments.callee(num - 1) 
+      //   }
+      // }
 
-      let fa = functional;
-      functional = function(){
-        return 0
-      }
+      // let fa = functional;
+      // functional = function(){
+      //   return 0
+      // }
 
       // console.log(fa(2))
       // console.log(functional())
 
 
-      console.log('***************基本包装类型**************')
-      let boo = new Boolean(true)
-      boo.a = '111';
-      console.log(boo)
+      // console.log('***************基本包装类型**************')
+      // let boo = new Boolean(true)
+      // boo.a = '111';
+      // console.log(boo)
     </script>
 </body>
 </html>

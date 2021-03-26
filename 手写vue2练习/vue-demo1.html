@@ -34,10 +34,40 @@
 	<!-- 宿主文件 -->
 	<div id="app"></div>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/vue-router/2.1.0/vue-router.min.js"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/vuex/3.6.2/vuex.min.js"></script>
 	<script src="./plugin.js"></script>
 	<script>
 		Vue.use(Myplugin)
 		Vue.prototype.$subs = new Vue();
+
+		// 使用vuex
+		Vue.use(Vuex);
+		const store = new Vuex.Store({
+			state: {
+				userinfo: 'admin'
+			},
+			getters: {
+				userclone(state) {
+					return state.userinfo + '大佬'
+				} 
+			},
+			mutations: {
+				SET_USERINFO(state, userinfo) {
+					state.userinfo = userinfo;
+				}
+			},
+			actions: {
+				SET_USE(context, userinfo) {
+					new Promise((resolve, reject) => {
+						setTimeout(() => {
+							context.commit('SET_USERINFO', userinfo);
+							resolve()
+						}, 1000)
+					})
+				}
+			}
+		})
 
 		Vue.component('data-list', {
 			props: {
@@ -122,7 +152,6 @@
 				}
 			},
 			render(h, context) {
-				console.log(h, context)
 				const { title } = context.props;
 				return h('div', [
 					h('span', title)
@@ -130,9 +159,60 @@
 			}
 		})
 
-		// 测试插件
+		//  测试路由
+
+		let home = Vue.component('home', {
+			created() {
+				console.log('this is home')
+			},
+			render(h) {
+				return h('div', [
+					h('span', '这是首页')
+				])
+			},
+			beforeRouteEnter(to, from, next) {
+				console.log(to)
+			}
+		})
+		let device = Vue.component('device', {
+			created() {
+				console.log('this is device')
+			},
+			render(h) {
+				return h('div', [
+					h('span', '这是设备页')
+				])
+			}
+		})
+
+		const routes = [
+			{
+				path: '/',
+				component: home,
+				beforeEnter(to, from, next) {
+					// console.log(to);
+					next();
+				}
+			},
+			{
+				path: '/device',
+				component: device
+			}
+		]
+
+		const router = new VueRouter({
+			routes
+		})
+
+		// router.beforeEach((to, from, next) => {
+
+		// })
+
+
 
 		let vm = new Vue({
+			store,
+			router,
 			el: '#app',
 			data() {
 				return {
@@ -143,18 +223,26 @@
 					]
 				}
 			},
+			computed: {
+				...Vuex.mapGetters(['userclone']),
+			},
+			created() {
+				this['SET_USE']('newName')
+				// this.$store.dispatch('SET_USE', 'newName')
+			},
 			methods: {
 				testMessage() {
 					this.$subs.$emit('message-handler')
 				},
 				addCourse() {
 					this.course.push(this.text)
-				}
+				},
+				...Vuex.mapActions(['SET_USE'])
 			},
 			directives: {
 				focus: {
 					inserted(el) {
-						// el 是挂在后的dom
+						// el 是挂载后的dom
 						el.focus();
 					}
 				}
@@ -162,6 +250,7 @@
 			template: `
 				<div>
 					{{title}}
+					<span>{{userclone}}，欢迎回来</span>
 					<message-success ref="messageSuccess">
 						<template v-slot:title="target">{{target.s}}这是slot标题</template>
 					</message-success>
@@ -170,6 +259,12 @@
 					<test-render :title="'测试render函数'"></test-render>
 					<plugin-test></plugin-test>
 					<button @click="testMessage">弹窗</button>
+					<div>路由测试</div>
+					<router-link to="/">1</router-link>
+					<router-link to="/device">2</router-link>
+					<keep-alive exclude="home">
+						<router-view></router-view>
+						</keep-alive>
 				</div>
 			`
 		})
