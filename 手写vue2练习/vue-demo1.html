@@ -43,6 +43,20 @@
 
 		// 使用vuex
 		Vue.use(Vuex);
+
+		// vuex插件 
+		const vuexplugins = store => {
+			if (localStorage) {
+				store.commit('SET_USERINFO', localStorage.getItem('userinfo') || 'admin')
+			}
+
+			store.subscribe((mutations, state) => {
+				if (mutations.type === 'SET_USERINFO') {
+					localStorage.setItem('userinfo', state.userinfo)
+				}
+			})
+		}
+
 		const store = new Vuex.Store({
 			state: {
 				userinfo: 'admin'
@@ -50,7 +64,7 @@
 			getters: {
 				userclone(state) {
 					return state.userinfo + '大佬'
-				} 
+				}
 			},
 			mutations: {
 				SET_USERINFO(state, userinfo) {
@@ -66,7 +80,8 @@
 						}, 1000)
 					})
 				}
-			}
+			},
+			plugins: [vuexplugins]
 		})
 
 		Vue.component('data-list', {
