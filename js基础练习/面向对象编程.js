@@ -117,3 +117,50 @@ function c() {
 // }
 
 // obj1.say()
+
+
+// 原型链继承
+console.log('************原型链继承***********')
+function functoryParent() {
+  this.array = [1,2,3]
+}
+
+functoryParent.prototype.getname = function(){
+  console.log(this.array)
+}
+
+function objFunctory() {
+
+}
+
+objFunctory.prototype = new functoryParent();
+
+// 顺序问题
+
+objFunctory.prototype = {
+  constructor: functoryParent
+}
+
+let obj = new objFunctory();
+let obj1 = new objFunctory();
+
+// 会共享parent层的属性
+console.log(obj.getname)
+
+// 经典继承
+console.log('************经典继承***********')
+function SuperType() {
+  this.color = ['red', 'green'];  
+}
+
+SuperType.prototype.getName = function() {
+  console.log(this.color)
+}
+
+function SubType() {
+  SuperType.call(this)
+}
+
+let objs = new SubType()
+
+console.log(objs) 

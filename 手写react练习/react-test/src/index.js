@@ -6,6 +6,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import logo from './logo.svg';
 
+// 测试redux
+import store from './store/counter';
 // 组件测试
 import Clock from './components/clock'
 
@@ -28,6 +30,16 @@ ReactDOM.render(
   // </React.StrictMode>,
   document.getElementById('root')
 );
+
+// store.subscribe(() => {
+//   ReactDOM.render(
+//     jsx,
+//     // <React.StrictMode>
+//     //   <App />
+//     // </React.StrictMode>,
+//     document.getElementById('root')
+//   );
+// })
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

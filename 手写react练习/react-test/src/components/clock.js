@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+// 测试redux
+import store from '../store/counter';
 // 函数组件
 import Functional from './function'
 
@@ -28,6 +29,10 @@ export default class Clock extends Component {
   componentDidMount() {
     this.startTime();
     document.getElementById('testButton').addEventListener('click', this.deleteHandler)
+
+    store.subscribe(() => {
+      this.forceUpdate();
+    })
   }
 
   // 组件卸载之前执行
@@ -52,6 +57,9 @@ export default class Clock extends Component {
         {/* <button onClick={this.deleteHandler} id="testButton">删除下面的functional组件</button> */}
         <button id="testButton">删除下面的functional组件</button>
         {show ? <Functional /> : null}
+
+        <button onClick={() => store.dispatch({ type: 'ADD' })}>修改redux数据</button>
+        <h2>{store.getState()}</h2>
       </div>
     )
   }
