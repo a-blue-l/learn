@@ -3,6 +3,9 @@ import App from './App.vue'
 import HelloWorld from './components/HelloWorld.vue'
 import List from './List.vue'
 import VueRouter from './router'
+// 此处的Vuex包含{store,install}
+import Vuex from './nStore'
+import stores from './store'
 
 const routes = [
   {
@@ -16,6 +19,9 @@ const routes = [
 ]
 
 Vue.use(VueRouter)
+Vue.use(Vuex)
+
+const store = new Vuex.Store(stores)
 
 const router = new VueRouter({
   routes
@@ -26,5 +32,6 @@ Vue.config.productionTip = false
 new Vue({
   // 为什么注册，是为了能够拿到router属性，以及拿到配置信息
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
