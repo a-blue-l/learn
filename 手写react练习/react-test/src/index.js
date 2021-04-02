@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 // import './index.css';
 import styles from './index.module.css';
 import App from './App';
@@ -24,7 +25,9 @@ const jsx = (
 )
 
 ReactDOM.render(
-  jsx,
+  <Provider store={store}>
+    {jsx}
+  </Provider>,
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>,

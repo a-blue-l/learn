@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 // 测试redux
 import store from '../store/counter';
 // 函数组件
 import Functional from './function'
 
-export default class Clock extends Component {
+class Clock extends Component {
   constructor(props) {
     super(props)
 
@@ -51,6 +52,8 @@ export default class Clock extends Component {
 
   render() {
     const { time, show } = this.state;
+    const { counter, add } = this.props;
+    console.log(this.props)
     return (
       <div>
         { time.toLocaleTimeString()}
@@ -60,7 +63,25 @@ export default class Clock extends Component {
 
         <button onClick={() => store.dispatch({ type: 'ADD' })}>修改redux数据</button>
         <h2>{store.getState()}</h2>
+
+        <button onClick={add}>通过react-redux改变数据</button>
+        <h2>{counter}</h2>
       </div>
     )
   }
 }
+
+
+export default connect(
+  state => ({
+    counter: state
+  }),
+  // 第一种方法
+  {
+    add: () => ({ type: 'ADD' })
+  }
+  // 第二种方法
+  // dispatch => ({
+  //   add: () => { dispatch({ type: 'ADD' })}
+  // })
+)(Clock)
