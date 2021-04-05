@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./abc.css">
+  <style>
+    li{
+      width: 100px;
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+<body>
+  <div></div>
+  <ul style="padding:20px;background: #e1e1e1;"><!-- aaaa -->
+    <li name="li1" style="width:20px;height:20px;border: 1px solid #333;">111</li>
+    <li name="li2"></li>
+    <li name="li3"></li>
+  </ul>
+  <select name="select" id="aaa">
+    <option value="1">11111</option>
+    <option value="2">222</option>
+    <option value="3">33311</option>
+  </select>
+  <input type="text" id="input" value="default value" autofocus>
+  <script>
+    function c(arg){
+      console.log(arg)
+    }
+
+    // c(document)
+      // c(document.documentElement)
+        // c(document.childNodes)
+    // c(document.referrer)
+c(document.getElementsByTagName('li').namedItem('li1'))
+c(document.getElementsByName('li1'))
+document.write('写入一')
+  document.writeln('写入二')
+  document.write('333')
+  // c(document.getElementsByName('li2')[0].attributes.getNamedItem('name'))
+  // c(document.getElementsByTagName('ul')[0].replaceChild(document.createTextNode('hello'), document.getElementsByTagName('ul')[0].lastChild))
+  // c(document.getElementsByTagName('ul')[0].firstChild.data)
+  document.getElementsByName('li1')[0].setAttribute('nn', 222)
+  let a = document.createAttribute('nannan')
+  a.value = '222'
+    document.getElementsByName('li1')[0].setAttributeNode(a)
+    c(document.getElementsByName('li1')[0].style.item(0))
+      c(document.getElementsByName('li1')[0].style.getPropertyValue('width'))
+        document.getElementsByName('li1')[0].style.removeProperty('width')
+
+  document.styleSheets[0].deleteRule(1) // 删除css规则
+
+
+  // 范围
+    let range = document.createRange()
+    range.selectNode(document.getElementsByTagName('ul')[0])
+    c(range)
+
+
+
+
+    // 事件
+    let input = document.getElementById('input');
+    input.onselect = function(e){
+      console.log(e.target.selectionStart)
+    }
+    // input.setSelectionRange(0, 3)
+    c(document.activeElement)
+    // document.getElementsByTagName('ul')[0].addEventListener('mouseenter', function () {
+    //     console.log(222)
+    //   }, false)
+    //   document.getElementsByTagName('ul')[0].addEventListener('mouseleave', function (e) {
+    //     console.log(333)
+    //   }, false)
+    // document.getElementsByTagName('ul')[0].addEventListener('mouseout', function(){
+    //   console.log(1)
+    // }, false)
+    //  document.getElementsByTagName('ul')[0].addEventListener('mouseover', function (e) {
+    //     console.log(e)
+    //   }, false)
+
+
+      window.onunload = function(e){
+        alert('aaa')
+        e.preventDefault()
+      }
+      // input.addEventListener('keypress', function(e){
+      //   c(e)
+      //   e.preventDefault();
+      // })
+
+      input.addEventListener('copy', function(e){
+        c(e)
+      })
+
+
+      let select = document.getElementById('aaa');
+      // select.add('22')
+      c(select.options[select.value])
+  </script>
+</body>
+</html>
