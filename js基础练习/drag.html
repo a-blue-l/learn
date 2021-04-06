@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      border: 1px solid #333;
+    }
+
+    .drag {
+      width: 40px;
+      height: 40px;
+      background: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="drag" draggable="true"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <script>
+
+    // dragstart
+    // drag
+    // dragend
+
+    // dragenter
+    // dragover
+    // dragleave/drop
+    let drag = document.querySelector('.drag');
+    let box = document.querySelector('.box');
+
+    // 拖拽
+    drag.addEventListener('dragstart', function(event){
+      console.log(event)
+      event.dataTransfer.setData('target', event.target.className);
+    })
+
+    // 自定义放置目标
+    box.addEventListener('dragenter', function (e) {
+      e.preventDefault()
+    })
+    box.addEventListener('dragover', function (e) {
+      e.preventDefault()
+    })
+    box.addEventListener('drop', function(e){
+      e.target.appendChild(document.querySelector(`.${e.dataTransfer.getData('target')}`))
+    })
+
+
+  </script>
+</body>
+
+</html>
