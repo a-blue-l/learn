@@ -14,62 +14,89 @@
     // canvas
     let canvas = document.getElementsByTagName('canvas')[0];
     let ctx = canvas.getContext('2d')
+    // 合成 globalAlpha globalCompositionOperation
+    ctx.globalAlpha = 0.1;
 
     // rect
-    ctx.strokeStyle = 'red';
-    ctx.fillStyle = '#333';
+    // ctx.strokeStyle = 'red';
+    // ctx.fillStyle = '#333';
 
-    ctx.fillRect(0, 0, 50, 50);
-    ctx.fillRect(25, 25, 50, 50);
-    ctx.lineWidth = 4;
-    ctx.lineJoin = 'miter'
-    ctx.strokeRect(50, 50, 50, 50);
-    ctx.strokeRect(75, 75, 50, 50);
-    ctx.clearRect(30, 30, 10, 10);
+    // ctx.fillRect(0, 0, 50, 50);
+    // ctx.fillRect(25, 25, 50, 50);
+    // ctx.lineWidth = 4;
+    // ctx.lineJoin = 'miter'
+    // ctx.strokeRect(50, 50, 50, 50);
+    // ctx.strokeRect(75, 75, 50, 50);
+    // ctx.clearRect(30, 30, 10, 10);
 
     // 绘制路径
-    ctx.beginPath();
-    ctx.lineCap = 'square';
-    ctx.moveTo(150, 100);
-    ctx.lineTo(200, 100);
-    ctx.stroke();
+    // ctx.beginPath();
+    // ctx.lineCap = 'square';
+    // ctx.moveTo(150, 100);
+    // ctx.lineTo(200, 100);
+    // ctx.stroke();
 
-    ctx.beginPath();
-    ctx.moveTo(300, 100);
-    ctx.arcTo(350, 50, 400, 100, 50);
-    ctx.stroke();
+    // ctx.beginPath();
+    // ctx.moveTo(300, 100);
+    // ctx.arcTo(350, 50, 400, 100, 50);
+    // ctx.stroke();
 
-    ctx.beginPath();
-    ctx.rect(350, 200, 50, 50);
-    ctx.fill();
+    // ctx.beginPath();
+    // ctx.rect(350, 200, 50, 50);
+    // ctx.fill();
 
-    ctx.beginPath();
-    ctx.bezierCurveTo(350, 200, 400, 100, 500, 200);
-    ctx.stroke();
+    // ctx.beginPath();
+    // ctx.bezierCurveTo(350, 200, 400, 100, 500, 200);
+    // ctx.stroke();
 
-    ctx.beginPath();
-    ctx.moveTo(300, 300);
-    ctx.lineTo(400, 300);
-    ctx.lineTo(400, 450);
-    ctx.closePath();
-    ctx.stroke();
+    // ctx.beginPath();
+    // ctx.moveTo(300, 300);
+    // ctx.lineTo(400, 300);
+    // ctx.lineTo(400, 450);
+    // ctx.closePath();
+    // ctx.stroke();
 
     // text
-    ctx.save();
-    ctx.rotate(0.1)
-    ctx.font = '30px Arial';
-    ctx.fillText('爱琴琴', 520, 200)
-    ctx.textAlign = 'center'
-    ctx.fillText('爱琴琴', 520, 250)
-    ctx.textBaseline = 'middle'
-    ctx.fillText('爱琴琴', 580, 250)
-    ctx.textAlign = 'right'
-    ctx.fillText('爱琴琴', 520, 300)
-    ctx.lineWidth = 1;
-    ctx.strokeText('love QIN', 600, 300)
-    ctx.restore();
+    // ctx.save();
+    // ctx.rotate(0.1)
+    // ctx.font = '30px Arial';
+    // ctx.fillText('爱琴琴', 520, 200)
+    // ctx.textAlign = 'center'
+    // ctx.fillText('爱琴琴', 520, 250)
+    // ctx.textBaseline = 'middle'
+    // ctx.fillText('爱琴琴', 580, 250)
+    // ctx.textAlign = 'right'
+    // ctx.fillText('爱琴琴', 520, 300)
+    // ctx.lineWidth = 1;
+    // ctx.strokeText('love QIN', 600, 300)
+    // ctx.restore();
 
-    ctx.fillRect(0, 100, 50, 50)
+    // ctx.fillRect(0, 100, 50, 50)
+
+    // drawImage
+    // let img = document.createElement('img');
+    // img.src = './full.png';
+    // img.onload = function() {
+    //   ctx.drawImage(img, 0, 0, img.width, img.height, 50, 50, 100, 100);
+    // }
+
+
+    // shandow
+    ctx.shadowColor = 'red';
+    ctx.shadowOffsetX = 3;
+    ctx.shadowOffsetY = 3;
+    ctx.shadowBlur = 10;
+    ctx.fillRect(20, 20, 30, 30);
+    // clip
+
+    // canvasGradient 渐变
+    const gradient = ctx.createLinearGradient(50, 50, 100, 100);
+    gradient.addColorStop(0, 'white');
+    gradient.addColorStop(1, 'red');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(50, 50, 50, 50);
+
+
   </script>
 </body>
 
