@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import HelloWorld from './components/HelloWorld.vue'
 import List from './List.vue'
+import ListA from './components/listA.vue'
+import ListB from './components/listB.vue'
 import VueRouter from './router'
 // 此处的Vuex包含{store,install}
 import Vuex from './nStore'
@@ -14,7 +16,17 @@ const routes = [
   },
   {
     path: '/list',
-    component: List
+    component: List,
+    children: [
+      {
+        path: '/list/listA',
+        component: ListA,
+      },
+      {
+        path: '/list/listB',
+        component: ListB,
+      }
+    ]
   }
 ]
 
