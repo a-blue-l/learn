@@ -142,7 +142,10 @@ class Compile {
 // Observe类，在其中进行数据判断，执行各自的操作
 class Observe {
   constructor(obj) {
+    // 如果是对象，则进行walk操作
     this.walk(obj)
+    // 如果是数组
+    // toto
   }
 
   walk(obj) {
@@ -168,6 +171,7 @@ class Watcher {
   }
 
   update() {
+    // 为什么将this指向vm
     this.updator.call(this.vm, this.vm[this.key]);
   }
 }
