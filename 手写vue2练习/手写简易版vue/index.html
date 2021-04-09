@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>简易版vue</title>
+</head>
+
+<body>
+  <div id="app">
+    <p k-on:click="add">{{counter}}</p>
+    <p k-text="number"></p>
+    <p k-html="describe"></p>
+    <input type="text" k-model="form" @input="input">
+  </div>
+  <script src="k-vue.js"></script>
+  <script>
+    const vm = new KVue({
+      el: '#app',
+      data: {
+        counter: 1,
+        number: '111',
+        describe: 'Hi，<i style="color: blue;">斜体文字</i>',
+        form: ''
+      },
+      methods: {
+        add() {
+          this.counter += 1;
+        },
+        input() {
+          console.log(this.form)
+        }
+      }
+    })
+
+  </script>
+</body>
+
+</html>
