@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+
+    /*  第一题  */
+    /*
+    * 作用：call, bind, apply 三者都用来更改函数内部this指向
+    * 区别：call/apply 会将调用它的函数执行，call的参数第一项是函数内部指向的对象，后面的参数用逗号隔开
+                  apply 的参数第一项同call，第二项为一个数组
+                  bind不会执行调用的函数，会返回一个新的函数，该函数内部更改了this指向
+                  bind的参数传递与call相同
+    */
+
+    /* 实现bind */
+    Function.prototype.mBind = function (context) {
+      const arg = Array.from(arguments).slice(1),
+        parentFunction = this;
+
+      if (typeof parentFunction !== 'function') throw new TypeError('调用者必须是函数');
+
+      function result() {
+        const _target = this instanceof result ? this : context;
+        parentFunction.call(_target, ...arg.concat(...arguments))
+      };
+      // result.prototype = Object.create(parentFunction.prototype);
+      return result;
+    };
+
+    // 情况一
+    let obj = { name: 'bob' };
+    function getMyName(age, colors) {
+      this.name = 'newName';
+      console.log(this.name + ' ' + age + ' ' + colors)
+    };
+    let new_Funct = getMyName.mBind(obj, 24);
+
+    // 情况二
+    let new_obj = new new_Funct('black');
+    console.log(new_obj instanceof getMyName) // true
+
+    /*  第二题  */
+    // js基本数据类型：Boolean、String、Number、null、undefined、symbol
+    // 基本包装类型：Boolean、String、Number
+    // 【当我们创建这三种基本类型的数据时，js会为我们同时创建这三种包装对象，方便调用该对象上的方法】 
+
+  </script>
+</body>
+
+</html>

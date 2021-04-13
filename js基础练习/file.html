@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="file" id="files-list">
+  <script>
+    (function (target) {
+      target.addEventListener('change', function (e) {
+        console.log(e)
+        const { target } = e;
+        const { files } = target;
+        console.log(files)
+
+        let reader = new FileReader();
+
+        // // 根据不同文件类型进项读取
+        // if (/image/.test(files[0].type)) {
+        //   reader.readAsDataURL(files[0])
+        // } else {
+        //   reader.readAsText(files[0])
+        // }
+
+        // reader.onerror = function (error) {
+        //   console.log(error)
+        // }
+
+        // reader.onprogress = function (progress) {
+        //   const { lengthComputable, loaded, total } = progress;
+
+        //   if (!lengthComputable) return
+        //   console.log(loaded + '/' + total)
+        // }
+
+        // reader.onload = function (event) {
+        //   console.log(event)
+        //   console.log(reader.result)
+        // }
+
+
+        // 切片
+        
+        let blob = files[0].slice(0, 32);
+
+        reader.readAsText(blob);
+      
+        reader.onload = function (event) {
+          console.log(reader.result)
+        }
+
+        // window.URL.createObjectURL(files[0]) // blob URL
+        // 生成的连接指向一块内存，在关闭卸载的时候会释放内存
+
+      })
+    })(document.getElementById('files-list'))
+
+
+
+
+    // geolocation
+
+    const geo = navigator.geolocation;
+    geo.getCurrentPosition(function (event) {
+      console.log(event)
+    }, function (error) {
+      console.log(error)
+    });
+  </script>
+</body>
+
+</html>
