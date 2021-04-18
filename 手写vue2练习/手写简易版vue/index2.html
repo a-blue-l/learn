@@ -10,12 +10,12 @@
 
 <body>
   <div id="app">
-    <p k-on:click="add">{{counter}}</p>
+    <!-- <p k-on:click="add">{{counter}}</p>
     <p k-text="number"></p>
     <p k-html="describe"></p>
-    <input type="text" k-model="form" @input="input">
+    <input type="text" k-model="form" @input="input"> -->
   </div>
-  <script src="k-vue.js"></script>
+  <script src="k-vue2.js"></script>
   <script>
     const vm = new KVue({
       el: '#app',
@@ -34,9 +34,29 @@
         }
       },
       render(h) {
-        return h('div', this.counter)
+        // const div = document.createElement('div');
+        // div.className = "box";
+        // div.textContent = this.counter;
+
+        return h('div', { attrs: { id: 'app' } }, [
+          h('p', null, [
+            h('i', null, this.counter*2),
+            h('i', null, this.counter),
+          ]),
+          h('p', null, this.counter),
+          h('p', null, this.counter)
+        ])
+
+
+        // test text node
+        // return h('div', null, this.counter + '')
       }
     })
+
+
+    setInterval(function () {
+      vm.counter += 1;
+    }, 1000)
 
   </script>
 </body>
