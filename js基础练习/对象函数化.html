@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>函数化</title>
 </head>
+
 <body>
   <div>参照 《语言精粹》第五章 第三节 函数化</div>
   <script>
-    ;(function(main){
+    ; (function (main) {
       window.onload = main;
-    })(function(){
+    })(function () {
       'use strict'
       // 对于函数化的理解与测试
       // 函数化的主要目的有两个
-      // 第一：让子对象可以调用父对象的方法
-      
+      // 第一：让子对象可以调用父对象的方法，也就是父类的构造函数，这一点在使用伪类继承的时候是无法办到的
+      // 可以拥有自己的私有环境
+
       /* 一个例子 */
-      let parentObject = function() {
+      let parentObject = function () {
         let that = {}
 
         that.myname = '我是老父亲'
 
-        that.saying = function() {
+        that.saying = function () {
           console.log(this.myname)
         }
 
@@ -35,7 +38,7 @@
 
         // 通过函数创建对象
         let that = parentObject();
-        
+
         // 进行对象的扩展
         that.myname = obj.myname;
 
@@ -43,28 +46,29 @@
       }
 
       // 重点内容
-      Object.prototype.sup = function(name) {
+      Object.prototype.sup = function (name) {
         let that = this,
-            method = that[name];
+          method = that[name];
 
-        return function() {
+        return function () {
           return method.call(that, arguments)
         }
       }
 
       // 这是子构造器
-      let Children = function(obj) {
-        let that = middle(obj);
+      let Children = function (obj) {
+        let that = middle(obj);  // 重点一，调用父类构造器，并传参
         this.myname = obj.myname;
 
         let saying = that.sup('saying');
-        
+
+        // 重点二：有自己的私有环境，只暴露应该暴露的接口，
         this.saying = function () {
           return saying.apply(that)
         }
       }
 
-      let newChild = new Children({myname: '我是 child'});
+      let newChild = new Children({ myname: '我是 child' });
 
       newChild.saying();
 
@@ -72,7 +76,7 @@
       // 防伪对象的概念：对象内部是一个完整的功能模块，不会因为重写了对象的某个方法而
       // 致使与此方法相关联的其他模块受到影响，并且属性及状态全部为私有
 
-      let Counterfeiting = function() {
+      let Counterfeiting = function () {
         // 一个完整的功能模块
         let say = function () {
           console.log(arguments[0])
@@ -82,20 +86,21 @@
 
         this.sayB = say;
       }
-      
+
       let objClone = new Counterfeiting()
 
       objClone.sayA(111)
       objClone.sayB(222)
 
-      objClone.sayA = function() {
+      objClone.sayA = function () {
         console.log(111 + '' + arguments[0])
       }
 
       objClone.sayA(111)
-       objClone.sayB(33)
+      objClone.sayB(33)
 
     })
   </script>
 </body>
+
 </html>
