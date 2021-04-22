@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>手写简版vue3</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    (function (main) {
+      main()
+    })(function () {
+
+      function createAppAPI(render) {
+        // 真正返回createApp函数的地方，通过render将vnode加入挂在容器
+        return function createApp(rootOptions) {
+          const app = {
+            mount (tag) {
+              const vnode = {
+                tag: rootOptions
+              }
+              render(vnode, tag)
+            }
+          }
+
+          return app
+        }
+      }
+
+      function baseCreateRenderer(options) {
+
+        // render函数，进行patch初始化
+        const render = function (vnode, container) {
+          const { render, data } = vnode.tag;
+          const { createElement, appendChild, querySelector } = options;
+          const subtree = render.call(data())
+
+          const child = createElement(subtree.tag);
+          child.textContent = subtree.children;
+
+          const parent = querySelector(container);
+          
+          appendChild(parent, child)
+          
+        }
+
+        return {
+          render,
+          createApp: createAppAPI(render)
+        }
+      }
+
+      function createRenderer(options) {
+        return baseCreateRenderer(options)
+      }
+
+      const weboptions = {
+        createElement(tag) {
+          return document.createElement(tag)
+        },
+        appendChild(parent, child) {
+          return parent.appendChild(child)
+        },
+        querySelector(tag) {
+          return document.querySelector(tag)
+        }
+      }
+
+      function ensureRenderer() {
+        return render = createRenderer(weboptions);
+      }
+
+      // 实现，Vue对象
+      const Vue = {
+        createApp(rootOptions) {
+          // 获取渲染器
+          return ensureRenderer().createApp(rootOptions);
+        }
+      }
+
+      // vue3 示例代码
+
+      const { createApp } = Vue;
+
+      const app = createApp({
+        data() {
+          return {
+            title: 'hello '
+          }
+        },
+        render() {
+          return {
+            tag: 'div',
+            children: this.title
+          }
+        }
+      });
+
+      // 此处可链式调用
+      app.mount('#app');
+
+    })
+  </script>
+</body>
+
+</html>

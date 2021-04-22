@@ -33,10 +33,20 @@
       <!-- 类型分类： -->
       <!-- M：重设起点，类似于canvas的moveTo -->
       <!-- L：从起点划线至终点，类似于canvas的lineTo -->
-      <!-- 待补充... -->
-      <path />
+      <!-- H：水平线，设置y的坐标无效，智慧水平划线 -->
+      <!-- V：垂直线 -->
+      <!-- 我们从30,30开始走，在与40,30之间划了一条线 又化了一条水平线到x坐标为50的地方，然后是一条垂直线... -->
+      <path d="M 30 30 L 40 30 H 50 V 50" stroke="red" fill="none"/>
 
       <!-- 简单的动画 -->
+      <!-- 一方面可以通过css transition来设置svg属性实现动画 -->
+      <!-- 另一方面可以通过css transition来设置svg属性实现动画 -->
+      <!-- 首先是一个圆 -->
+      <circle cx="60" cy="60" r="10" stroke="black" stroke-width="2" fill="red" stroke-dasharray="100" stroke-dashoffset="10"/>
+
+      <!-- 分组 -->
+
+      <!--  -->
 
     </svg>
   </div>
