@@ -9,15 +9,8 @@
 </template>
 
 <script>
-import lTable from './components/l-table.vue'
-import lTableColumn from './components/l-table-column.vue'
-
 export default {
   name: 'App',
-  components: {
-    lTable,
-    lTableColumn
-  },
   data() {
     return {
       tableData: [

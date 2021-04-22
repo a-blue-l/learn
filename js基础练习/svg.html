@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>svg 示例</title>
+</head>
+
+<body>
+  <div>
+    <!-- viewBox 相当于canvas的width和height，设定画布的大小，参数含义：x最小坐标，y最小坐标，画布宽度，画布高度 -->
+    <svg viewBox="0 0 500 500">
+      <!-- 简单的图形 -->
+      <!-- 统一的属性设置
+        【既可以设置属性，也可以设置为style样式，写到css中，同样有效】
+        stroke: 是否勾勒线条，否则传none，反之传入线条的颜色
+        stroke-width: 线条的粗细
+        stroke-linecap: 线条两段的表现形式，例如round为圆头形状
+
+        fill: 是否填充，否则传none，反之传入填充的颜色，在对于多边形的情况下注意设置
+      -->
+      <!-- 单线条 -->
+      <line x1="5" y1="5" x2="10" y2="10" stroke="blue" stroke-width="1" stroke-linecap="round" />
+
+      <!-- 多线条，仅限全为直线的情况 -->
+      <!-- points 线段的坐标点，第一个为起点，后面全为终点，空格分割 -->
+      <polyline points="15,0 15,10 20,10" stroke="black" stroke-width="2" stroke-linecap="butt" fill="none" />
+
+      <!-- 路径，更自由的形状管理，例如曲线，贝塞尔曲线等 -->
+      <!-- 属性d，包含所有的路径坐标点及路径类型 -->
+      <!-- 类型分类： -->
+      <!-- M：重设起点，类似于canvas的moveTo -->
+      <!-- L：从起点划线至终点，类似于canvas的lineTo -->
+      <!-- 待补充... -->
+      <path />
+
+      <!-- 简单的动画 -->
+
+    </svg>
+  </div>
+</body>
+
+</html>
