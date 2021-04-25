@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>svg 示例</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>svg 示例</title>
-</head>
-
-<body>
-  <div>
-    <!-- viewBox 相当于canvas的width和height，设定画布的大小，参数含义：x最小坐标，y最小坐标，画布宽度，画布高度 -->
-    <svg viewBox="0 0 500 500">
-      <!-- 简单的图形 -->
-      <!-- 统一的属性设置
+  <body>
+    <div>
+      <!-- viewBox 相当于canvas的width和height，设定画布的大小，参数含义：x最小坐标，y最小坐标，画布宽度，画布高度 -->
+      <svg viewBox="0 0 300 300" style="width:400px;height:300px;">
+        <!-- 简单的图形 -->
+        <!-- 统一的属性设置
         【既可以设置属性，也可以设置为style样式，写到css中，同样有效】
         stroke: 是否勾勒线条，否则传none，反之传入线条的颜色
         stroke-width: 线条的粗细
@@ -21,35 +20,201 @@
 
         fill: 是否填充，否则传none，反之传入填充的颜色，在对于多边形的情况下注意设置
       -->
-      <!-- 单线条 -->
-      <line x1="5" y1="5" x2="10" y2="10" stroke="blue" stroke-width="1" stroke-linecap="round" />
+        <!-- 单线条 -->
+        <line
+          x1="5"
+          y1="5"
+          x2="10"
+          y2="10"
+          stroke="blue"
+          stroke-width="1"
+          stroke-linecap="round"
+        />
 
-      <!-- 多线条，仅限全为直线的情况 -->
-      <!-- points 线段的坐标点，第一个为起点，后面全为终点，空格分割 -->
-      <polyline points="15,0 15,10 20,10" stroke="black" stroke-width="2" stroke-linecap="butt" fill="none" />
+        <!-- 多线条，仅限全为直线的情况 -->
+        <!-- points 线段的坐标点，第一个为起点，后面全为终点，空格分割 -->
+        <polyline
+          points="15,0 15,10 20,10"
+          stroke="black"
+          stroke-width="2"
+          stroke-linecap="butt"
+          fill="none"
+        />
 
-      <!-- 路径，更自由的形状管理，例如曲线，贝塞尔曲线等 -->
-      <!-- 属性d，包含所有的路径坐标点及路径类型 -->
-      <!-- 类型分类： -->
-      <!-- M：重设起点，类似于canvas的moveTo -->
-      <!-- L：从起点划线至终点，类似于canvas的lineTo -->
-      <!-- H：水平线，设置y的坐标无效，智慧水平划线 -->
-      <!-- V：垂直线 -->
-      <!-- 我们从30,30开始走，在与40,30之间划了一条线 又化了一条水平线到x坐标为50的地方，然后是一条垂直线... -->
-      <path d="M 30 30 L 40 30 H 50 V 50" stroke="red" fill="none"/>
+        <!-- 路径，更自由的形状管理，例如曲线，贝塞尔曲线等 -->
+        <!-- 属性d，包含所有的路径坐标点及路径类型 -->
+        <!-- 类型分类： -->
+        <!-- M：重设起点，类似于canvas的moveTo -->
+        <!-- L：从起点划线至终点，类似于canvas的lineTo -->
+        <!-- H：水平线，设置y的坐标无效，智慧水平划线 -->
+        <!-- V：垂直线 -->
+        <!-- 我们从30,30开始走，在与40,30之间划了一条线 又化了一条水平线到x坐标为50的地方，然后是一条垂直线... -->
+        <path d="M 30 30 L 40 30 H 50 V 50" stroke="red" fill="none" />
 
-      <!-- 简单的动画 -->
-      <!-- 一方面可以通过css transition来设置svg属性实现动画 -->
-      <!-- 另一方面可以通过css transition来设置svg属性实现动画 -->
-      <!-- 首先是一个圆 -->
-      <circle cx="60" cy="60" r="10" stroke="black" stroke-width="2" fill="red" stroke-dasharray="100" stroke-dashoffset="10"/>
+        <!-- 简单的动画 -->
+        <!-- 一方面可以通过css transition来设置svg属性实现动画 -->
+        <!-- 另一方面可以通过css transition来设置svg属性实现动画 -->
+        <!-- 首先是一个圆 -->
+        <circle
+          cx="60"
+          cy="60"
+          r="10"
+          stroke="black"
+          stroke-width="2"
+          fill="red"
+          stroke-dasharray="100"
+          stroke-dashoffset="10"
+        />
 
-      <!-- 分组 -->
+        <!-- 分组 -->
+      </svg>
 
-      <!--  -->
+      <!-- 一个小女孩，通过js+css实现动画 -->
+      <svg width="400px" height="300px">
+        <path
+          d="M193 107 L193 119, 206 119, 206 114 Z"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="none"
+        />
+        <path
+          d="M183 80 L 177 97 M177 97 Q 176 105, 184 107 L214 116 M214 116 Q 222 116,226 108 L232 90"
+          stroke-linecap="round"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="#fff"
+        />
+        <path
+          d="M186 89 Q190 86, 191 90 M214 96 Q218 93, 219 98 M196 103 Q 200 106, 203 105"
+          stroke-linecap="round"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="#fff"
+          class="path2"
+        />
+        <circle cx="186" cy="96" r="4.5" fill="#ff6d36" />
+        <circle cx="215" cy="104" r="4.5" fill="#ff6d36" />
+        <path
+          d="M178 80 C 190 45, 240 50, 236 96 L 206 87,204 80, 199 85, 178 80"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="#fcdc58"
+        />
+        <path
+          d="M196 50 L 190 63,203 60 Z M228 72 L242 65, 236 80 Z"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="#fff"
+          class="path1"
+        />
+        <!-- 腿 -->
+        <path
+          d="M166 179 Q 152 185, 155 198 L164 197 Q 160 188, 183 183"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="#fff"
+        />
+        <path
+          d="M155 198 L164 197, 165 205, 152 207 Z"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="#46b76e"
+        />
+        <path
+          d="M197 186 Q 206 203, 224 204 L225 195 Q 210 197, 208 186"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="#fff"
+        />
+        <path
+          d="M224 204 L225 195, 233 195, 232 208 Z"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="#46b76e"
+        />
+        <!-- 衣服 -->
+        <path
+          d="M180 119 L173 159, 216 160,222 120 Z"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="#2abdc9"
+        />
+        <path
+          d="M173 159 Q170 169, 161 177 Q 186 189, 217 187 L 216 160 Z"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="#336687"
+        />
+        <!-- 小狗 -->
+        <path
+          d="M228 63 L229 74, 236 79, 247 78 Q 217 116, 232 161 Q 222 184, 204 167 Q 190 116, 228 63"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="#fff"
+        />
+        <circle cx="222" cy="84" r="2" fill="#183e5d" />
+        <circle cx="232" cy="90" r="2" fill="#183e5d" />
+        <!-- 胳膊 -->
+        <path
+          d="M176 125 Q 175 116, 184 119 Q 198 144, 224 139 L 225 147 Q 193 151, 176 125"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="#2abdc9"
+        />
+        <path
+          d="M176 125 Q 175 116, 184 119 Q 198 144, 224 139 L 225 147 Q 193 151, 176 125"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="#2abdc9"
+        />
 
-    </svg>
-  </div>
-</body>
+        <path
+          d="M224 175 Q255 212, 248 173 Q246 165, 255 168 Q260 226, 220 179 M209 119 Q 236 122, 224 145 Q 214 147, 217 138 Q 227 129, 212 128 M 224 119 Q255 122,238 145 Q229 145, 232 137 Q242 128, 226 126 M209 155 Q238 159, 222 180 Q214 180, 217 173 Q227 163,211 164 M222 153 Q254 158, 236 179 Q228 181, 230 172 Q242 163, 228 162"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="#fff"
+        />
+        <path d="M220 90 L226 93, 222 94 Z" stroke="none" fill="#183e5d" />
 
+        <path
+          d="M160 250 L 220 250"
+          stroke="#183e5d"
+          stroke-width="2"
+          fill="none"
+        />
+      </svg>
+      <style>
+        path {
+          -webkit-transition: all 0.5s linear;
+          transition: all 0.5s linear;
+        }
+      </style>
+      <script>
+        // 我们让小女孩眉眼弯弯,，通过动态修改路径，但是要配合css3 transition属性
+        "use strict";
+        let path1 = document.getElementsByClassName("path1")[0],
+          path2 = document.getElementsByClassName("path2")[0],
+          d1 = "M196 50 L 190 63,203 60 Z",
+          d11 = "M190 50 L 190 63,203 60 Z",
+          d2 =
+            "M186 89 Q190 86, 191 90 M214 96 Q218 93, 219 98 M196 103 Q 200 106, 203 105",
+          d21 =
+            "M185 87 Q190 86, 193 90 M212 96 Q218 93, 221 98 M194 103 Q 200 106, 205 105",
+          falg = true;
+
+        let time = function () {
+          if (falg) {
+            path1.setAttribute('d', d1);
+            path2.setAttribute("d", d2);
+          } else {
+            path1.setAttribute('d', d11);
+            path2.setAttribute("d", d21);
+          }
+          falg = !falg;
+          setTimeout(time, 1000);
+        };
+        time();
+      </script>
+    </div>
+  </body>
 </html>
