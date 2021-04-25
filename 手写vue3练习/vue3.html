@@ -15,11 +15,102 @@
       main()
     })(function () {
 
+      const targetMap = new WeakMap();
+      // 临时保存当前的响应函数
+      const effectStack = [];
+      // effect实现
+      function effect(fn) {
+        // 封装高阶函数，用来绑定依赖关系
+        const e = createReactiveEffect(fn);
+
+        e();
+
+        return e;
+      }
+
+      function createReactiveEffect(fn) {
+        const effect = function () {
+          try {
+            effectStack.push(effect);
+
+            // 执行监听函数
+            return fn()
+          }
+          finally {
+            effectStack.pop()
+          }
+        }
+
+        return effect
+      }
+
+      // 负责收集所有的effect，建立依赖关系，以便以后执行
+      function track(target, key) {
+        const effect = effectStack[effectStack.length - 1];
+
+        if (effect) {
+          let depMap = targetMap.get(target)
+
+          if (!depMap) {
+            depMap = new Map();
+            targetMap.set(target, depMap)
+          }
+
+          let deps = depMap.get(key);
+
+          if (!deps) {
+            deps = new Set();
+            depMap.set(key, deps)
+          }
+
+          deps.add(effect)
+        }
+      }
+
+      // 负责寻找对应的effect列表，并执行
+      function trigger(target, key) {
+        const depMap = targetMap.get(target);
+
+        if (depMap) {
+
+          const deps = depMap.get(key);
+
+          if (deps) {
+            deps.forEach(item => item())
+          }
+        }
+      }
+
+      // 响应式实现
+      // reactive实现
+      function reactive(obj) {
+        if (obj === null || typeof obj !== 'object') {
+          return
+        }
+        // 新的代理
+        return new Proxy(obj, {
+          set(target, key, value) {
+            const result = Reflect.set(target, key, value);
+            trigger(target, key)
+            return result
+          },
+          get(target, key) {
+            const result = Reflect.get(target, key)
+            track(target, key)
+            return typeof target[key] === 'object' ? reactive(target[key]) : result;
+          },
+          deleteProperty(target, key) {
+            const result = Reflect.deleteProperty(target, key);
+            return result
+          }
+        })
+      }
+
       function createAppAPI(render) {
         // 真正返回createApp函数的地方，通过render将vnode加入挂在容器
         return function createApp(rootOptions) {
           const app = {
-            mount (tag) {
+            mount(tag) {
               const vnode = {
                 tag: rootOptions
               }
@@ -35,17 +126,18 @@
 
         // render函数，进行patch初始化
         const render = function (vnode, container) {
-          const { render, data } = vnode.tag;
+          const { render, setup } = vnode.tag;
           const { createElement, appendChild, querySelector } = options;
-          const subtree = render.call(data())
+          const subtree = render.call(setup())
 
           const child = createElement(subtree.tag);
           child.textContent = subtree.children;
+          child.onclick = subtree.click;
 
           const parent = querySelector(container);
-          
+
           appendChild(parent, child)
-          
+
         }
 
         return {
@@ -71,9 +163,10 @@
       }
 
       function ensureRenderer() {
+        // 这里可以通过传入不同平台对于dom的不同操作实现，来适应不同的平台，增加了可扩展性
         return render = createRenderer(weboptions);
       }
-
+      
       // 实现，Vue对象
       const Vue = {
         createApp(rootOptions) {
@@ -87,15 +180,31 @@
       const { createApp } = Vue;
 
       const app = createApp({
-        data() {
-          return {
-            title: 'hello '
+
+        setup() {
+          const state = reactive({
+            title: 'hello'
+          })
+
+          effect(function () {
+            console.log(state.title)
+            const dom = document.createElement('div');
+            dom.textContent = state.title;
+            document.querySelector('#app').appendChild(dom);
+          })
+
+          const change = () => {
+            state.title += 'h';
           }
+
+          return { state, change }
         },
+
         render() {
           return {
             tag: 'div',
-            children: this.title
+            children: this.state.title,
+            click: this.change
           }
         }
       });
