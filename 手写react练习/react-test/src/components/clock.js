@@ -47,13 +47,13 @@ class Clock extends Component {
     this.setState({
       show: !show
     })
-    console.log(this.state.show)
+    // console.log(this.state.show)
   }
 
   render() {
     const { time, show } = this.state;
     const { counter, add } = this.props;
-    console.log(this.props)
+    // console.log(this.props)
     return (
       <div>
         { time.toLocaleTimeString()}
