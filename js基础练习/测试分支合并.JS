@@ -11,3 +11,4 @@ var nnn = 2222;
 
 
 var nmn = 1111111
+num *= 1;
