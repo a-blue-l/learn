@@ -13,5 +13,5 @@ var nnn = 2222;
 var nmn = 1111111
 num *= 1;
 
-var pp = 1;
-var ii = 0;
+var qweqeqwe =1;
+var jkl = 2;
