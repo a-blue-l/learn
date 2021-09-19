@@ -10,4 +10,4 @@ var nnn = 2222;
 
 
 
-var nmn = 000
+var nmn = 1111111
