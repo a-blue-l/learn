@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- customElements.define -->
+
+  <div is="x-foo">12121212</div>
+  <x-add></x-add>
+
+  <script>
+    class StateElement extends HTMLDivElement {
+      constructor() {
+        super();
+        this.innerText = this.innerText + '这是后缀名'
+        console.log('自定义标签生效');
+      }
+    }
+
+    class AddElement extends HTMLElement {
+      constructor () {
+        super();
+        this.innerHTML = `
+          <div>121212</div>
+        `
+      }
+    }
+
+    customElements.define('x-foo', StateElement, {extends: 'div'})
+    customElements.define('x-add', AddElement)
+  </script>
+</body>
+</html>

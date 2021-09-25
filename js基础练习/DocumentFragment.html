@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="main"></div>
+
+  <template id="tem">
+    <h1>这是模板一的内容</h1>
+  </template>
+  <template id="tem1">
+    <h1>这是模板二的内容</h1>
+  </template>
+
+  <button class="button">添加节点</button>
+  <button class="button">使用模板</button>
+  <button class="button">克隆模板</button>
+
+  <script>
+    const fragment = new DocumentFragment();
+
+    const button = document.getElementsByClassName('button')[0];
+    const button1 = document.getElementsByClassName('button')[1];
+    const button2 = document.getElementsByClassName('button')[2];
+
+    const dom = document.getElementById('main');
+
+    const tem = document.getElementById('tem');
+    const tem1 = document.getElementById('tem1');
+
+    button.onclick = function() {
+      const p = document.createElement('p');
+      const p1 = document.createElement('p');
+      const p2 = document.createElement('p');
+      
+      p.innerText = '123';
+      p1.innerText = '1231';
+      p2.innerText = '1232';
+      fragment.appendChild(p);
+      fragment.appendChild(p1);
+      fragment.appendChild(p2);
+
+      dom.appendChild(fragment);
+    }
+
+    button1.onclick = function () {
+      dom.appendChild(tem.content);
+    }
+
+    button2.onclick = function () {
+      dom.appendChild(document.importNode(tem1.content, true));
+    }
+
+  </script>
+</body>
+</html>

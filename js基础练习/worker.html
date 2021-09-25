@@ -1,21 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <script>
-    const worker = new Worker('./worker.js')
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 专用工作者线程
+      // termainate
+      const worker = new Worker("./worker.js");
 
-    worker.postMessage('start!')
-    
+      worker.postMessage("start!");
 
-    worker.onmessage = function (event) {
-      console.log(event)
-    }
-  </script>
-</body>
+      worker.onmessage = function (event) {
+        console.log("专用工作者线程", event);
+      };
+
+      // 共享工作者线程
+      // connect
+      // close
+
+      // 服务工作者线程
+      // nativate.serviceWorker.register
+      navigator.serviceWorker.onmessage = function () {
+        console.log(333333)
+      };
+      navigator.serviceWorker.register("./serviceWorker.js").then((regis) => {
+        // navigator.serviceWorker.a.postMessage("sssss");
+        regis.active.postMessage('ssss')
+      }, (err) => {
+        console.log(err)
+      });
+    </script>
+  </body>
 </html>

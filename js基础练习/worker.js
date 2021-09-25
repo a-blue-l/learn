@@ -1,6 +1,4 @@
-console.log(this)
 this.onmessage = function(event){
-  console.log(event)
   this.postMessage({
     name: 'yes'
   })
